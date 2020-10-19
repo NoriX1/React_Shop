@@ -14,7 +14,7 @@ function SortPopup({ items = [] }) {
   useEffect(() => {
     document.body.addEventListener('click', handleOutsideClick);
     return () => {
-      document.body.removeEventListener('click');
+      document.body.removeEventListener('click', handleOutsideClick);
     } // eslint-disable-next-line
   }, []);
 
