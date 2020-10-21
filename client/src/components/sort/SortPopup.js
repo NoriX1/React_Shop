@@ -8,7 +8,8 @@ const SortPopup = React.memo(({ items = [], activeSortType, onChangeSortType }) 
   const activeItem = items.find(item => item.type === activeSortType);
 
   const handleOutsideClick = (e) => {
-    if (!e.path.includes(sortRef.current)) {
+    const path = e.path || (e.composedPath && e.composedPath());
+    if (!path.includes(sortRef.current)) {
       setPopupActive(false);
     }
   };

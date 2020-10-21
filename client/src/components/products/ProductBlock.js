@@ -47,7 +47,7 @@ function ProductBlock({ name, imageUrl, price, types, sizes }) {
       </div>
       <div className="pizza-block__bottom">
         <div className="pizza-block__price">от {price} ₽</div>
-        <Button outline className="button-add">
+        <Button outline className="button__add">
           <svg
             width="12"
             height="12"
