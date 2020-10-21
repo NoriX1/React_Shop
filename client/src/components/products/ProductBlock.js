@@ -2,17 +2,20 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from '../';
 
-function ProductBlock({ name, imageUrl, price, types, sizes }) {
-  const availableTypes = ['тонкое', 'традиционное'];
-  const avaliableSizes = [26, 30, 40];
-
+const availableTypes = ['тонкое', 'традиционное'];
+const avaliableSizes = [26, 30, 40];
+function ProductBlock({ id, name, imageUrl, price, types, sizes, onAddToCart, countInCart }) {
   const [activeType, setActiveType] = useState(types[0]);
   const [activeSize, setActiveSize] = useState(sizes[0]);
+
   const onSelectType = index => {
     setActiveType(index);
   }
   const onSelectSize = size => {
     setActiveSize(size);
+  }
+  const onAddProduct = () => {
+    onAddToCart({ id, name, imageUrl, price, type: availableTypes[activeType], size: activeSize });
   }
 
   return (
@@ -47,7 +50,7 @@ function ProductBlock({ name, imageUrl, price, types, sizes }) {
       </div>
       <div className="pizza-block__bottom">
         <div className="pizza-block__price">от {price} ₽</div>
-        <Button outline className="button__add">
+        <Button className="button__add" onClick={onAddProduct} outline>
           <svg
             width="12"
             height="12"
@@ -61,7 +64,7 @@ function ProductBlock({ name, imageUrl, price, types, sizes }) {
             />
           </svg>
           <span>Добавить</span>
-          <i>2</i>
+          {countInCart && <i>{countInCart}</i>}
         </Button>
       </div>
     </li>
@@ -73,7 +76,9 @@ ProductBlock.propTypes = {
   imageUrl: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
   types: PropTypes.arrayOf(PropTypes.number),
-  sizes: PropTypes.arrayOf(PropTypes.number)
+  sizes: PropTypes.arrayOf(PropTypes.number),
+  onAddToCart: PropTypes.func,
+  countInCart: PropTypes.number
 };
 
 ProductBlock.defaultProps = {

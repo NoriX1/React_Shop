@@ -1,7 +1,11 @@
 import { combineReducers } from 'redux';
-import productsReducer from './productsReducer';
-import filtersReducer from './filtersReducer';
+
+import products from './productsReducer';
+import filters from './filtersReducer';
+import cart from './cartReducer';
+
 export default combineReducers({
-  products: productsReducer,
-  filters: filtersReducer
+  products,
+  filters,
+  cart
 });
