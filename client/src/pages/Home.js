@@ -1,58 +1,63 @@
-import React from 'react';
-import { Categories, Button, SortPopup } from '../components';
+import React, { useEffect } from 'react';
+import { connect, useDispatch } from 'react-redux';
 
-function Home() {
+import { Categories, SortPopup, ProductBlock, ProductLoader } from '../components';
+import { fetchProducts, setCategory, setSortBy } from '../actions';
+
+const categoryItems = ["Мясные", "Вегетарианская", "Гриль", "Острые", "Закрытые"];
+const sortItems = [
+  { type: 'rating', name: "популярности" },
+  { type: 'price', name: "цене" },
+  { type: 'name', name: "алфавиту" }
+]
+
+const Home = ({ products, setCategory, isLoaded, sortBy, category, setSortBy }) => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchProducts(sortBy, category));
+    // eslint-disable-next-line
+  }, [category, sortBy])
+
+  const onChangeCategory = index => {
+    setCategory(index);
+  };
+
+  const onChangeSortType = type => {
+    setSortBy(type);
+  };
+
   return (
     <div className="container">
       <div className="content__top">
         <Categories
-          items={["Мясные", "Вегетарианская", "Гриль", "Острые", "Закрытые"]}
+          items={categoryItems}
+          activeCategory={category}
+          onChangeCategory={(index) => onChangeCategory(index)}
         />
-        <SortPopup items={["популярности", "цене", "алфавиту"]} />
+        <SortPopup
+          items={sortItems}
+          activeSortType={sortBy}
+          onChangeSortType={(type) => onChangeSortType(type)}
+        />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <ul className="content__items">
-        <li className="pizza-block">
-          <img
-            className="pizza-block__image"
-            src="https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
-            alt="Pizza"
-          />
-          <h4 className="pizza-block__title">Чизбургер-пицца</h4>
-          <div className="pizza-block__selector">
-            <ul>
-              <li className="active">тонкое</li>
-              <li>традиционное</li>
-            </ul>
-            <ul>
-              <li className="active">26 см.</li>
-              <li>30 см.</li>
-              <li>40 см.</li>
-            </ul>
-          </div>
-          <div className="pizza-block__bottom">
-            <div className="pizza-block__price">от 395 ₽</div>
-            <Button outline className="button-add">
-              <svg
-                width="12"
-                height="12"
-                viewBox="0 0 12 12"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M10.8 4.8H7.2V1.2C7.2 0.5373 6.6627 0 6 0C5.3373 0 4.8 0.5373 4.8 1.2V4.8H1.2C0.5373 4.8 0 5.3373 0 6C0 6.6627 0.5373 7.2 1.2 7.2H4.8V10.8C4.8 11.4627 5.3373 12 6 12C6.6627 12 7.2 11.4627 7.2 10.8V7.2H10.8C11.4627 7.2 12 6.6627 12 6C12 5.3373 11.4627 4.8 10.8 4.8Z"
-                  fill="white"
-                />
-              </svg>
-              <span>Добавить</span>
-              <i>2</i>
-            </Button>
-          </div>
-        </li>
+        {isLoaded ?
+          products.map(product => <ProductBlock key={product.id} {...product} />) :
+          Array(8).fill(0).map((item, index) => <ProductLoader key={`${item}_${index}`} />)}
       </ul>
     </div>
-  )
+  );
 }
 
-export default Home;
+function mapStateToProps({ products, filters }) {
+  return {
+    products: products.items,
+    isLoaded: products.isLoaded,
+    sortBy: filters.sortBy,
+    category: filters.category
+  };
+}
+
+export default connect(mapStateToProps, { setCategory, setSortBy })(Home);
