@@ -3,14 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Categories, SortPopup, ProductBlock, ProductLoader } from '../components';
 import { fetchProducts, setCategory, setSortBy, addProductToCart } from '../actions';
-import cartReducer from '../reducers/cartReducer';
-
-const categoryItems = ["Мясные", "Вегетарианские", "Гриль", "Острые", "Закрытые"];
-const sortItems = [
-  { type: 'rating', name: "популярности" },
-  { type: 'price', name: "цене" },
-  { type: 'name', name: "алфавиту" }
-]
+import { categoryItems, sortItems } from '../constants';
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -58,8 +51,9 @@ const Home = () => {
       <ul className="content__items">
         {isLoaded ?
           products.map(product => <ProductBlock
-            key={product.id} {...product}
-            countInCart={productsInCart[product.id] && productsInCart[product.id].length}
+            {...product}
+            key={product.id}
+            countInCart={productsInCart[product.id] && productsInCart[product.id].count}
             onAddToCart={(product) => onAddProductToCart(product)} />) :
           Array(8).fill(0).map((item, index) => <ProductLoader key={`${item}_${index}`} />)}
       </ul>

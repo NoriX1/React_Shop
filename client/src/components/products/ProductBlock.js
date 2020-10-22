@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button } from '../';
 
-const availableTypes = ['тонкое', 'традиционное'];
-const avaliableSizes = [26, 30, 40];
+import { Button } from '../';
+import { availableTypes, avaliableSizes } from '../../constants';
+
 function ProductBlock({ id, name, imageUrl, price, types, sizes, onAddToCart, countInCart }) {
   const [activeType, setActiveType] = useState(types[0]);
   const [activeSize, setActiveSize] = useState(sizes[0]);
 
-  const onSelectType = index => {
-    setActiveType(index);
+  const onSelectType = id => {
+    setActiveType(id);
   }
-  const onSelectSize = size => {
-    setActiveSize(size);
+  const onSelectSize = id => {
+    setActiveSize(id);
   }
   const onAddProduct = () => {
-    onAddToCart({ id, name, imageUrl, price, type: availableTypes[activeType], size: activeSize });
+    onAddToCart({ id, name, imageUrl, price, type: activeType, size: activeSize });
   }
 
   return (
@@ -28,21 +28,21 @@ function ProductBlock({ id, name, imageUrl, price, types, sizes, onAddToCart, co
       <h4 className="pizza-block__title">{name}</h4>
       <div className="pizza-block__selector">
         <ul>
-          {availableTypes.map((type, index) => (
+          {Object.values(availableTypes).map(({ id, type }) => (
             <li
-              className={`${activeType === index ? 'active' : ''} ${types.includes(index) ? '' : 'disabled'}`}
-              onClick={() => onSelectType(index)}
-              key={`${type}_${index}`}>
+              className={`${activeType === id ? 'active' : ''} ${types.includes(id) ? '' : 'disabled'}`}
+              onClick={() => onSelectType(id)}
+              key={`${id}_${type}`}>
               {type}
             </li>
           ))}
         </ul>
         <ul>
-          {avaliableSizes.map((size, index) => (
+          {Object.values(avaliableSizes).map(({ id, size }) => (
             <li
-              className={`${activeSize === size ? 'active' : ''} ${sizes.includes(size) ? '' : 'disabled'}`}
-              onClick={() => onSelectSize(size)}
-              key={`${size}_${index}`}>
+              className={`${activeSize === id ? 'active' : ''} ${sizes.includes(id) ? '' : 'disabled'}`}
+              onClick={() => onSelectSize(id)}
+              key={`${id}_${size}`}>
               {`${size} см.`}
             </li>
           ))}
