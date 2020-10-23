@@ -1,4 +1,5 @@
 import actionTypes from '../actions/types';
+import _ from 'lodash';
 
 const INITIAL_STATE = {
   items: {},
@@ -11,7 +12,7 @@ const getKey = action => `${action.payload.id}_${action.payload.type}_${action.p
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case actionTypes.ADD_PRODUCT_TO_CART:
+    case actionTypes.ADD_PRODUCT_TO_CART: {
       const productItem = state.items[action.payload.id];
       const propsItem = state.itemsByProps[getKey(action)];
       return {
@@ -33,6 +34,33 @@ export default (state = INITIAL_STATE, action) => {
         totalCount: state.totalCount + 1,
         totalPrice: state.totalPrice + action.payload.price
       }
+    }
+    case actionTypes.CLEAR_CART:
+      return INITIAL_STATE;
+    case actionTypes.REMOVE_ITEM_FROM_CART: {
+      const productItem = state.items[action.payload.id];
+      const propsItem = state.itemsByProps[getKey(action)];
+      const newItems = (productItem.count - propsItem.count) ?
+        {
+          ...state.items,
+          [action.payload.id]: {
+            ...productItem,
+            count: productItem.count - propsItem.count
+          },
+        } :
+        {
+          ..._.omit(state.items, action.payload.id)
+        }
+      return {
+        ...state,
+        items: newItems,
+        itemsByProps: {
+          ..._.omit(state.itemsByProps, getKey(action))
+        },
+        totalCount: state.totalCount - propsItem.count,
+        totalPrice: state.totalPrice - (productItem.price * propsItem.count),
+      };
+    }
     default:
       return state;
   }

@@ -30,3 +30,11 @@ export const setCategory = categoryIndex => {
 export const addProductToCart = product => {
   return { type: actionTypes.ADD_PRODUCT_TO_CART, payload: product };
 }
+
+export const clearCart = () => {
+  return { type: actionTypes.CLEAR_CART }
+}
+
+export const removeItemFromCart = (item) => {
+  return { type: actionTypes.REMOVE_ITEM_FROM_CART, payload: item };
+}

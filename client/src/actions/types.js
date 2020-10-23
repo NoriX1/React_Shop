@@ -4,5 +4,7 @@ export default {
   FETCH_PRODUCTS_ERROR: 'fetch-products-error',
   SET_SORT_BY: 'set-sort-by',
   SET_CATEGORY: 'set-category',
-  ADD_PRODUCT_TO_CART: 'add-product-to-cart'
+  ADD_PRODUCT_TO_CART: 'add-product-to-cart',
+  CLEAR_CART: 'clear-cart',
+  REMOVE_ITEM_FROM_CART: 'remove-item-from-cart'
 }
