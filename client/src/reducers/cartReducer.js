@@ -35,20 +35,17 @@ export default (state = INITIAL_STATE, action) => {
         totalPrice: state.totalPrice + action.payload.price
       }
     }
-    case actionTypes.CLEAR_CART:
-      return INITIAL_STATE;
+
     case actionTypes.REMOVE_ITEM_FROM_CART: {
       const productItem = state.items[action.payload.id];
       const propsItem = state.itemsByProps[getKey(action)];
-      const newItems = (productItem.count - propsItem.count) ?
-        {
-          ...state.items,
-          [action.payload.id]: {
-            ...productItem,
-            count: productItem.count - propsItem.count
-          },
-        } :
-        {
+      const newItems = (productItem.count - propsItem.count) ? {
+        ...state.items,
+        [action.payload.id]: {
+          ...productItem,
+          count: productItem.count - propsItem.count
+        },
+      } : {
           ..._.omit(state.items, action.payload.id)
         }
       return {
@@ -61,6 +58,65 @@ export default (state = INITIAL_STATE, action) => {
         totalPrice: state.totalPrice - (productItem.price * propsItem.count),
       };
     }
+
+    case actionTypes.ADD_ONE_ITEM: {
+      const productItem = state.items[action.payload.id];
+      const propsItem = state.itemsByProps[getKey(action)];
+      return {
+        ...state,
+        items: {
+          ...state.items,
+          [action.payload.id]: {
+            ...productItem,
+            count: productItem.count + 1
+          },
+        },
+        itemsByProps: {
+          ...state.itemsByProps,
+          [getKey(action)]: {
+            ...productItem,
+            count: propsItem.count + 1,
+            price: propsItem.price + productItem.price
+          }
+        },
+        totalCount: state.totalCount + 1,
+        totalPrice: state.totalPrice + productItem.price
+      };
+    }
+
+    case actionTypes.SUBTRACT_ONE_ITEM: {
+      const productItem = state.items[action.payload.id];
+      const propsItem = state.itemsByProps[getKey(action)];
+      const newItems = (productItem.count - 1) ? {
+        ...state.items,
+        [action.payload.id]: {
+          ...productItem,
+          count: productItem.count - 1
+        },
+      } : {
+          ..._.omit(state.items, action.payload.id)
+        };
+      const newItemsByProps = (propsItem.count - 1) ? {
+        ...state.itemsByProps,
+        [getKey(action)]: {
+          ...productItem,
+          count: propsItem.count - 1,
+          price: propsItem.price - productItem.price
+        }
+      } : {
+          ..._.omit(state.itemsByProps, getKey(action))
+        };
+      return {
+        ...state,
+        items: newItems,
+        itemsByProps: newItemsByProps,
+        totalCount: state.totalCount - 1,
+        totalPrice: state.totalPrice - productItem.price
+      }
+    }
+
+    case actionTypes.CLEAR_CART:
+      return INITIAL_STATE;
     default:
       return state;
   }

@@ -3,7 +3,8 @@ import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { CartItem } from '..';
-import { removeItemFromCart } from '../../actions';
+import { removeItemFromCart, addOneItem, subtractOneItem } from '../../actions';
+import Button from '../buttons/Button';
 
 const CartFull = ({ items, itemsByProps, onClearCart, totalCount, totalPrice }) => {
   const dispatch = useDispatch();
@@ -12,6 +13,20 @@ const CartFull = ({ items, itemsByProps, onClearCart, totalCount, totalPrice }) 
       dispatch(removeItemFromCart(item));
     }
   };
+
+  const handleAddOne = (item) => {
+    dispatch(addOneItem(item));
+  };
+
+  const handleSubtractOne = (item) => {
+    dispatch(subtractOneItem(item));
+  };
+
+  const handlePay = () => {
+    console.log('Вы заказали:', itemsByProps);
+    console.log(`Всего: ${totalCount} шт., Итоговая сумма: ${totalPrice} ₽`);
+  }
+
 
   const renderProducts = () => {
     return Object.keys(itemsByProps).map(key => {
@@ -27,6 +42,8 @@ const CartFull = ({ items, itemsByProps, onClearCart, totalCount, totalPrice }) 
           sumPrice={itemsByProps[key].price}
           imageUrl={items[id].imageUrl}
           onRemoveItem={handleRemoveItem}
+          onAddOne={handleAddOne}
+          onSubtractOne={handleSubtractOne}
         />
       );
     });
@@ -68,9 +85,9 @@ const CartFull = ({ items, itemsByProps, onClearCart, totalCount, totalPrice }) 
             </svg>
             <span>Вернуться назад</span>
           </Link>
-          <div className="button pay-btn">
+          <Button className="pay-btn" onClick={handlePay}>
             <span>Оплатить сейчас</span>
-          </div>
+          </Button>
         </div>
       </div>
     </div>

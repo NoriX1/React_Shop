@@ -6,5 +6,7 @@ export default {
   SET_CATEGORY: 'set-category',
   ADD_PRODUCT_TO_CART: 'add-product-to-cart',
   CLEAR_CART: 'clear-cart',
-  REMOVE_ITEM_FROM_CART: 'remove-item-from-cart'
+  REMOVE_ITEM_FROM_CART: 'remove-item-from-cart',
+  ADD_ONE_ITEM: 'add-one-item',
+  SUBTRACT_ONE_ITEM: 'subtract-one-item'
 }
