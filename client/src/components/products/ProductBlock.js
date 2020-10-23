@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Button } from '../';
 import { availableTypes, avaliableSizes } from '../../constants';
 
-function ProductBlock({ id, name, imageUrl, price, types, sizes, onAddToCart, countInCart }) {
+const ProductBlock = React.memo(({ id, name, imageUrl, price, types, sizes, onAddToCart, countInCart }) => {
   const [activeType, setActiveType] = useState(types[0]);
   const [activeSize, setActiveSize] = useState(sizes[0]);
 
@@ -69,9 +69,10 @@ function ProductBlock({ id, name, imageUrl, price, types, sizes, onAddToCart, co
       </div>
     </li>
   )
-}
+});
 
 ProductBlock.propTypes = {
+  id: PropTypes.number,
   name: PropTypes.string.isRequired,
   imageUrl: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,

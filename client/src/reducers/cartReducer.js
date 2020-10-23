@@ -74,7 +74,7 @@ export default (state = INITIAL_STATE, action) => {
         itemsByProps: {
           ...state.itemsByProps,
           [getKey(action)]: {
-            ...productItem,
+            ...propsItem,
             count: propsItem.count + 1,
             price: propsItem.price + productItem.price
           }
@@ -99,7 +99,7 @@ export default (state = INITIAL_STATE, action) => {
       const newItemsByProps = (propsItem.count - 1) ? {
         ...state.itemsByProps,
         [getKey(action)]: {
-          ...productItem,
+          ...propsItem,
           count: propsItem.count - 1,
           price: propsItem.price - productItem.price
         }

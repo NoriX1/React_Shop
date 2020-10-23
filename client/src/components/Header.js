@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import logo from '../assets/img/pizza-logo.svg';
 import Button from './buttons/Button';
 
-const Header = () => {
+const Header = React.memo(() => {
   const { totalPrice, totalCount } = useSelector(({ cart }) => cart);
 
   return (
@@ -59,6 +59,6 @@ const Header = () => {
       </div>
     </div>
   );
-}
+});
 
 export default Header;

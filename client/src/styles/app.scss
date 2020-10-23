@@ -441,3 +441,13 @@ body {
     }
   }
 }
+
+.warning{
+  text-align: center;
+  .warning__header{
+    margin-bottom: 20px;
+  }
+  .warning__image{
+    max-width: 30%;
+  }
+}
