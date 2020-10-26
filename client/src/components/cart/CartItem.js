@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import { availableTypes, avaliableSizes } from '../../constants';
 import Button from '../buttons/Button';
 
@@ -58,5 +60,23 @@ const CartItem = React.memo(
       </li>
     )
   });
+
+CartItem.propTypes = {
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  type: PropTypes.string,
+  size: PropTypes.string,
+  count: PropTypes.number.isRequired,
+  imageUrl: PropTypes.string.isRequired,
+  sumPrice: PropTypes.number.isRequired,
+  onRemoveItem: PropTypes.func,
+  onAddOne: PropTypes.func,
+  onSubtractOne: PropTypes.func
+}
+
+CartItem.defaultProps = {
+  type: '0',
+  size: '0'
+}
 
 export default CartItem;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
-const SortPopup = React.memo(({ items = [], activeSortType, onChangeSortType }) => {
+const SortPopup = React.memo(function SortPopup({ items, activeSortType, onChangeSortType }) {
 
   const [popupActive, setPopupActive] = useState(false);
   const sortRef = useRef();

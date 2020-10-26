@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import logo from '../assets/img/pizza-logo.svg';
 import Button from './buttons/Button';
 
-const Header = React.memo(() => {
+const Header = React.memo(function Header() {
   const { totalPrice, totalCount } = useSelector(({ cart }) => cart);
 
   return (

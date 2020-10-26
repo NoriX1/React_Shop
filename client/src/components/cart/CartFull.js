@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import { CartItem } from '..';
 import { removeItemFromCart, addOneItem, subtractOneItem } from '../../actions';
@@ -92,6 +93,21 @@ const CartFull = ({ items, itemsByProps, onClearCart, totalCount, totalPrice }) 
       </div>
     </div>
   )
+}
+
+CartFull.propTypes = {
+  items: PropTypes.object,
+  itemsByProps: PropTypes.object,
+  onClearCart: PropTypes.func,
+  totalCount: PropTypes.number,
+  totalPrice: PropTypes.number
+}
+
+CartFull.defaultProps = {
+  items: [],
+  itemsByProps: [],
+  totalCount: 0,
+  totalPrice: 0
 }
 
 export default CartFull;
