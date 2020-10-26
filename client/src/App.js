@@ -2,7 +2,7 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 
 import { Header } from './components';
-import { Cart, Home } from './pages';
+import { Cart, Home, Payment } from './pages';
 
 
 function App() {
@@ -13,6 +13,7 @@ function App() {
       <div className="content">
         <Route exact path="/" component={Home} />
         <Route exact path="/cart" component={Cart} />
+        <Route exact path="/payment" component={Payment} />
       </div>
     </div>
   );

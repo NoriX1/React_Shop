@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { CartItem } from '..';
@@ -9,6 +9,7 @@ import Button from '../buttons/Button';
 
 const CartFull = ({ items, itemsByProps, onClearCart, totalCount, totalPrice }) => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const handleRemoveItem = useCallback((item) => {
     if (window.confirm('Вы уверены, что хотите удалить товар?')) {
@@ -25,8 +26,9 @@ const CartFull = ({ items, itemsByProps, onClearCart, totalCount, totalPrice }) 
   }, [dispatch]);
 
   const handlePay = () => {
-    console.log('Вы заказали:', itemsByProps);
+    console.log('Вы заказали:', { ...items, ...itemsByProps });
     console.log(`Всего: ${totalCount} шт., Итоговая сумма: ${totalPrice} ₽`);
+    history.push('/payment');
   }
 
   const renderProducts = () => {
